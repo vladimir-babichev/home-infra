@@ -13,8 +13,8 @@
                 values:
                   - amd64
 
-.domain: &x-domain "argocd.bornin.su"
-.url: &x-url "https://argocd.bornin.su"
+.domain: &x-domain "argocd.domain.com"
+.url: &x-url "https://argocd.domain.com"
 .metrics: &x-metrics
   metrics:
     enabled: false

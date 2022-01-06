@@ -9,11 +9,11 @@ info() {
 }
 
 err() {
-    echo -e "🚨  $1"
+    echo -e "$1"
 }
 
 fail() {
     [ -n "$2" ] && err_code=$2 || err_code=1
-    echo -e "💀  $1"
+    echo -e "$1"
     exit $err_code
 }

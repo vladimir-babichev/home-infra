@@ -20,7 +20,7 @@ detect_os() {
 
 check_dependencies_osx() {
     if ! which brew >/dev/null 2>&1; then
-        fail "Homebrew is missing. Follow instructions @ https://brew.sh/ to install"
+        fail "💀  Homebrew is missing. Follow instructions @ https://brew.sh/ to install"
     fi
 }
 
@@ -64,7 +64,7 @@ install_packages_ubuntu() {
 
 main() {
     detect_os
-    [ "$OS" = "unknown" ] && fail "Unsupported OS"
+    [ "$OS" = "unknown" ] && fail "💀  Unsupported OS"
 
     check_dependencies_${OS,,}
     install_packages_${OS,,}

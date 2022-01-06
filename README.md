@@ -39,7 +39,7 @@
 
 * [ ] [system-upgrade-controller](https://github.com/rancher/system-upgrade-controller)
 
-### Home Automation
+### home-automation
 
 * [ ] [Frigate](https://frigate.video/)
 * [ ] [Home Assistant](https://www.home-assistant.io/)
