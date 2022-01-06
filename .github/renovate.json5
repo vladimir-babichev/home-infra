@@ -7,9 +7,6 @@
     "docker:enableMajor"
   ],
   "suppressNotifications": ["prIgnoreNotification"],
-  "helm-values": {
-    "fileMatch": ["./.+\\.yaml$"]
-  },
   "kubernetes": {
     "fileMatch": ["\\.yaml$"],
     "ignorePaths": [
