@@ -1,3 +1,4 @@
+---
 ###
 # Templated values
 ###
@@ -6,11 +7,11 @@
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
-        - matchExpressions:
-          - key: kubernetes.io/arch
-            operator: In
-            values:
-            - amd64
+          - matchExpressions:
+              - key: kubernetes.io/arch
+                operator: In
+                values:
+                  - amd64
 
 .domain: &x-domain "argocd.bornin.su"
 .url: &x-url "https://argocd.bornin.su"
@@ -19,7 +20,6 @@
     enabled: false
     serviceMonitor:
       enabled: false
-
 
 ###
 # Configuration
@@ -78,9 +78,9 @@ argo-cd:
       paths:
         - /
       tls:
-      - secretName: *x-domain
-        hosts:
-        - *x-domain
+        - secretName: *x-domain
+          hosts:
+            - *x-domain
 
   controller:
     <<: *x-affinity
