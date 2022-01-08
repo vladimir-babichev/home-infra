@@ -1,0 +1,26 @@
+site_author: Vladimir Babichev
+site_description: GitOps repository for my home infrastructure
+site_name: Home GitOps
+site_url: https://vladimir-babichev.github.io/gitops-argocd/
+
+repo_name: gitops-argocd
+repo_url: https://github.com/vladimir-babichev/gitops-argocd
+
+docs_dir: docs
+
+theme:
+  name: material
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - admonition
+  - pymdownx.snippets:
+      base_path: docs
+plugins:
+  - search:
+      lang: en
+nav:
+  - Home: index.md
+  - Apps: apps.md
+  - Roadmap: roadmap.md
+  - Contributing: contributing.md
