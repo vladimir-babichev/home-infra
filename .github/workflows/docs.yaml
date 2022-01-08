@@ -12,8 +12,8 @@ on: # yamllint disable-line rule:truthy
 
 jobs:
   publish-docs:
-    name: Publish Docs
-    runs-on: ubuntu-20.04
+    name: publish-docs
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
