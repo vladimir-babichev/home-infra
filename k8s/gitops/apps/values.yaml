@@ -16,7 +16,7 @@ global:
 
 applications:
   argocd:
-    path: k8s/gitops/argocd
+  # path: k8s/gitops/argocd
   gitops-apps:
     path: k8s/gitops/apps
   core-apps:
