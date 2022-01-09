@@ -106,7 +106,7 @@ argo-cd:
     <<: *x-metrics
     envFrom:
       - secretRef:
-        name: argocd-vault-plugin-credentials
+          name: argocd-vault-plugin-credentials
     volumes:
       - name: custom-tools
         emptyDir: {}
