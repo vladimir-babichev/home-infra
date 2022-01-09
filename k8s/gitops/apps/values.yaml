@@ -31,3 +31,4 @@ applications:
       valueFiles:
         - values.yaml
   argocd:
+    path: k8s/core/argocd
