@@ -1,5 +1,7 @@
 nameOverride: gitops-apps
 global:
+  gitops:
+    namespace: default
   namespace: gitops
   project: default
   repo:
