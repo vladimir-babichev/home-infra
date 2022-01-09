@@ -1,4 +1,4 @@
-.appproj-annotations: &x-appproj-annotoations
+.appproj-annotations: &x-appproj-annotations
   annotations:
     argocd.argoproj.io/sync-wave: "-10"
 global:
@@ -18,23 +18,34 @@ argocd-apps:
       path: k8s/core/apps
 
   appProjects:
-    gitops:
-      <<: *x-appproj-annotations
-      destinations:
-        - namespace: gitops
-          server: https://kubernetes.default.svc
-      clusterResourceWhitelist:
-        - group: "*"
-          kind: "*"
-      sourceRepos:
-        - "*"
     core:
       <<: *x-appproj-annotations
       destinations:
         - namespace: core
           server: https://kubernetes.default.svc
-      clusterResourceWhitelist:
-        - group: "*"
-          kind: "*"
-      sourceRepos:
-        - "*"
+        - namespace: ingress-internal
+          server: https://kubernetes.default.svc
+        - namespace: ingress-external
+          server: https://kubernetes.default.svc
+    gitops:
+      <<: *x-appproj-annotations
+      destinations:
+        - namespace: gitops
+          server: https://kubernetes.default.svc
+    home-automation:
+      <<: *x-appproj-annotations
+      destinations:
+        - namespace: home-automation
+          server: https://kubernetes.default.svc
+    services:
+      <<: *x-appproj-annotations
+      destinations:
+        - namespace: gitlab
+          server: https://kubernetes.default.svc
+        - namespace: services
+          server: https://kubernetes.default.svc
+    system-upgrade:
+      <<: *x-appproj-annotations
+      destinations:
+        - namespace: system-upgrade
+          server: https://kubernetes.default.svc
