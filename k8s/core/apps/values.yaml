@@ -1,5 +1,7 @@
 nameOverride: core-apps
 global:
+  gitops:
+    namespace: default
   namespace: core
   project: default
   repo:

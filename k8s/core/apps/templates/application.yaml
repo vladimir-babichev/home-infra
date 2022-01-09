@@ -5,11 +5,11 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: {{ default $k (($v).name) }}
-  namespace: {{ coalesce (($v).namespace) $.Values.global.namespace "default" }}
-  annotations:
-    {{- if (($v).annotations) }}
+  namespace: {{ default "default" $.Values.global.gitops.namespace }}
+  {{- if (($v).annotations) }}
+    annotations:
     {{- toYaml $v.annotations | nindent 4 }}
-    {{- end }}
+  {{- end }}
   labels:
     app.kubernetes.io/name: {{ include "chart.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}

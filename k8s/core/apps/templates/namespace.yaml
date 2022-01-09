@@ -1,6 +1,0 @@
-{{- if not (lookup "v1" "Namespace" "" (coalesce $.Values.global.namespace "default")) }}
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: {{ coalesce $.Values.global.namespace "default" }}
-{{- end }}
