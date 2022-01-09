@@ -1,0 +1,23 @@
+global:
+  namespace: default
+  project: default
+  repo: https://github.com/vladimir-babichev/gitops-argocd/
+  revision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
+
+applications:
+  app-of-apps:
+    path: k8s/gitops/apps
+    helm:
+      releaseName: gitops-apps
+      version: v3
+      valueFiles:
+        - values.yaml
+  argocd:
+    path: k8s/gitops/argocd
