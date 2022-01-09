@@ -1,6 +1,6 @@
 global:
   namespace: core
-  project: default
+  project: core
   repo:
     url: https://github.com/vladimir-babichev/gitops-argocd/
     revision: HEAD

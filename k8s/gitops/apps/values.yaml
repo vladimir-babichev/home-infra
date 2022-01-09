@@ -1,6 +1,9 @@
+.appproj-annotations: &x-appproj-annotoations
+  annotations:
+    argocd.argoproj.io/sync-wave: "-10"
 global:
   namespace: gitops
-  project: default
+  project: gitops
   repo:
     url: https://github.com/vladimir-babichev/gitops-argocd/
     revision: HEAD
@@ -13,3 +16,25 @@ argocd-apps:
       path: k8s/gitops/apps
     core-apps:
       path: k8s/core/apps
+
+  appProjects:
+    gitops:
+      <<: *x-appproj-annotations
+      destinations:
+        - namespace: gitops
+          server: https://kubernetes.default.svc
+      clusterResourceWhitelist:
+        - group: "*"
+          kind: "*"
+      sourceRepos:
+        - "*"
+    core:
+      <<: *x-appproj-annotations
+      destinations:
+        - namespace: core
+          server: https://kubernetes.default.svc
+      clusterResourceWhitelist:
+        - group: "*"
+          kind: "*"
+      sourceRepos:
+        - "*"
