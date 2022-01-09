@@ -13,8 +13,8 @@
                 values:
                   - amd64
 
-.domain: &x-domain "argocd.domain.com"
-.url: &x-url "https://argocd.domain.com"
+.domain: &x-domain "argocd.secret-domain.com"
+.url: &x-url "https://argocd.secret-domain.com"
 .metrics: &x-metrics
   metrics:
     enabled: false
@@ -90,7 +90,7 @@ argo-cd:
   dex:
     <<: *x-affinity
     <<: *x-metrics
-    ebabled: false
+    enabled: false
 
   repoServer:
     <<: *x-affinity
