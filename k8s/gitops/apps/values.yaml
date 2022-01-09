@@ -1,8 +1,6 @@
 nameOverride: gitops-apps
 global:
-  gitops:
-    namespace: default
-  namespace: default
+  namespace: gitops
   project: default
   repo:
     url: https://github.com/vladimir-babichev/gitops-argocd/
@@ -19,18 +17,17 @@ global:
 applications:
   gitops-apps:
     path: k8s/gitops/apps
-    namespace: default
     helm:
       releaseName: gitops-apps
       version: v3
       valueFiles:
         - values.yaml
-  core-apps:
-    path: k8s/core/apps
-    helm:
-      releaseName: core-apps
-      version: v3
-      valueFiles:
-        - values.yaml
+  # core-apps:
+  #   path: k8s/core/apps
+  #   helm:
+  #     releaseName: core-apps
+  #     version: v3
+  #     valueFiles:
+  #       - values.yaml
   argocd:
     path: k8s/gitops/argocd
