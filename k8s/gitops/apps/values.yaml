@@ -1,8 +1,10 @@
 global:
   namespace: default
   project: default
-  repo: https://github.com/vladimir-babichev/gitops-argocd/
-  revision: HEAD
+  repo:
+    url: https://github.com/vladimir-babichev/gitops-argocd/
+    revision: HEAD
+    pathPrefix: k8s/gitops
   syncPolicy:
     automated:
       prune: true
@@ -12,12 +14,19 @@ global:
       - ApplyOutOfSyncOnly=true
 
 applications:
-  app-of-apps:
+  gitops-apps:
     path: k8s/gitops/apps
+    namespace: core
     helm:
       releaseName: gitops-apps
       version: v3
       valueFiles:
         - values.yaml
+  core-apps:
+    path: k8s/core/apps
+    helm:
+      releaseName: core-apps
+      version: v3
+      valueFiles:
+        - values.yaml
   argocd:
-    path: k8s/gitops/argocd

@@ -1,0 +1,56 @@
+{{- range $k, $v := .Values.volumes }}
+{{- with $ -}}
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ default $k $v.name }}
+  annotations:
+    {{- if $v.annotations }}
+    {{- toYaml $v.annotations | nindent 4 }}
+    {{- end }}
+  labels:
+    app.kubernetes.io/name: {{ include "vault.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    {{- if $v.labels }}
+    {{- toYaml $v.labels | nindent 4 }}
+    {{- end }}
+spec:
+  accessModes:
+    - ReadWriteMany
+  capacity:
+    storage: {{ default "1Gi" $v.size }}
+  nfs:
+    path: {{ $v.nfs.path }}/{{ default $k $v.name }}
+    server: {{ $v.nfs.server }}
+  persistentVolumeReclaimPolicy: {{ default "Retain" $v.persistentVolumeReclaimPolicy }}
+  storageClassName: nfs
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ default $k $v.name }}
+  annotations:
+    {{- if $v.annotations }}
+    {{- toYaml $v.annotations | nindent 4 }}
+    {{- end }}
+  labels:
+    app.kubernetes.io/name: {{ include "vault.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    {{- if $v.labels }}
+    {{- toYaml $v.labels | nindent 4 }}
+    {{- end }}
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: {{ default "1Gi" $v.size }}
+  storageClassName: nfs
+  volumeMode: Filesystem
+  volumeName: {{ default $k $v.name }}
+{{- end }}
+{{- end }}

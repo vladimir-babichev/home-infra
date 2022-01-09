@@ -1,0 +1,18 @@
+global:
+  namespace: core
+  project: default
+  repo:
+    url: https://github.com/vladimir-babichev/gitops-argocd/
+    revision: HEAD
+    pathPrefix: k8s/core
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
+
+applications:
+  nfs-subdir-external-provisioner:
+  vault:

@@ -1,0 +1,65 @@
+###
+# Templated values
+###
+.hostname: &x-hostname "vault.secret-domain.com"
+.volume: &x-volume "vault-data"
+
+###
+# Configuration
+###
+volumes:
+  vault-data:
+    name: *x-volume
+    annotations:
+      argocd.argoproj.io/sync-wave: "-1"
+    nfs:
+      path: /Media/k8s
+      server: 192.168.20.8
+
+vault:
+  injector:
+    enabled: false
+
+  server:
+    image:
+      repository: vault
+      tag: 1.9.2
+
+    ingress:
+      enabled: true
+      annotations:
+        traefik.ingress.kubernetes.io/router.tls: "true"
+        cert-manager.io/cluster-issuer: letsencrypt
+        kubernetes.io/ingress.class: traefik-internal
+      activeService: true
+      hosts:
+        - host: *x-hostname
+      tls:
+        - secretName: *x-hostname
+          hosts:
+            - *x-hostname
+
+    dataStorage:
+      enabled: false
+
+    volumeMounts:
+      - mountPath: /vault/data
+        name: *x-volume
+
+    volumes:
+      - name: *x-volume
+        persistentVolumeClaim:
+          claimName: *x-volume
+
+    standalone:
+      enabled: "-"
+
+      config: |
+        ui = true
+        listener "tcp" {
+          address         = "0.0.0.0:8200"
+          tls_disable     = 1
+        }
+        storage "file" {
+          path = "/vault/data"
+        }
