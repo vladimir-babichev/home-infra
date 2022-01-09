@@ -10,3 +10,4 @@
 * Ingress resource domain
   * Mutating webhook
   * ArgoCD plugin
+  * Solved by using `argocd-vault-plugin`
