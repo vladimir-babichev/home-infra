@@ -16,7 +16,7 @@ global:
 applications:
   gitops-apps:
     path: k8s/gitops/apps
-    namespace: core
+    namespace: default
     helm:
       releaseName: gitops-apps
       version: v3
