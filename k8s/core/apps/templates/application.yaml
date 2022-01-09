@@ -5,7 +5,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: {{ default $k (($v).name) }}
-  namespace: {{ default $.Values.global.namespace (($v).namespace) }}
+  namespace: {{ coalesce (($v).namespace) $.Values.global.namespace "default" }}
   annotations:
     {{- if (($v).annotations) }}
     {{- toYaml $v.annotations | nindent 4 }}
@@ -19,12 +19,12 @@ metadata:
     {{- end }}
 spec:
   destination:
-    namespace: {{ default $.Values.global.namespace (($v).namespace) }}
-    server: {{ default "https://kubernetes.default.svc" $.Values.global.server (($v).server) }}
-  project: {{ default $.Values.global.project $.Values.global.namespace (($v).namespace) }}
+    namespace: {{ coalesce (($v).namespace) $.Values.global.namespace "default" }}
+    server: {{ coalesce (($v).server) $.Values.global.server "https://kubernetes.default.svc" }}
+  project: {{ coalesce (($v).project) $.Values.global.project (($v).namespace) $.Values.global.namespace "default" }}
   source:
     repoURL: {{ default $.Values.global.repo.url ((($v).repo).url) }}
-    targetRevision: {{ default "HEAD" (($.Values.global.repo).revision) ((($v).repo).revision) }}
+    targetRevision: {{ coalesce ((($v).repo).revision) (($.Values.global.repo).revision) "HEAD" }}
     {{- if (($v).path) }}
     path: {{ $v.path }}
     {{- else }}
