@@ -13,8 +13,8 @@
                 values:
                   - amd64
 
-.domain: &x-domain "argocd.secret-domain.com"
-.url: &x-url "https://argocd.secret-domain.com"
+.domain: &x-domain "argocd.<path:k8s/cluster#domain>"
+.url: &x-url "https://argocd.<path:k8s/cluster#domain>"
 .metrics: &x-metrics
   metrics:
     enabled: false

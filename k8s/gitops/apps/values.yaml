@@ -12,6 +12,8 @@ argocd-apps:
   applications:
     argocd:
       path: k8s/gitops/argocd
+      plugin:
+        name: argocd-vault-plugin-helm
     gitops-apps:
       path: k8s/gitops/apps
     core-apps:
