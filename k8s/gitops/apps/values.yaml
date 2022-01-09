@@ -1,7 +1,5 @@
 nameOverride: gitops-apps
 global:
-  gitops:
-    namespace: default
   namespace: gitops
   project: default
   repo:
@@ -17,19 +15,9 @@ global:
       - ApplyOutOfSyncOnly=true
 
 applications:
-  gitops-apps:
-    path: k8s/gitops/apps
-    helm:
-      releaseName: gitops-apps
-      version: v3
-      valueFiles:
-        - values.yaml
-  core-apps:
-    path: k8s/core/apps
-    helm:
-      releaseName: core-apps
-      version: v3
-      valueFiles:
-        - values.yaml
   argocd:
     path: k8s/gitops/argocd
+  gitops-apps:
+    path: k8s/gitops/apps
+  core-apps:
+    path: k8s/core/apps

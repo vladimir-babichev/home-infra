@@ -5,7 +5,6 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: {{ default $k (($v).name) }}
-  # namespace: {{ default "default" $.Values.global.gitops.namespace }}
   {{- if (($v).annotations) }}
     annotations:
     {{- toYaml $v.annotations | nindent 4 }}
