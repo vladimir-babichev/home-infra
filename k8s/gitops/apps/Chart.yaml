@@ -1,3 +1,8 @@
 apiVersion: v2
-name: app-of-apps
+name: gitops-apps
 version: 0.1.0
+
+dependencies:
+  - name: argocd-apps
+    version: "0.1.0"
+    repository: https://vladimir-babichev.github.io/helm-charts/

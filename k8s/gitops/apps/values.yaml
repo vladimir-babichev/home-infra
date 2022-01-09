@@ -1,23 +1,15 @@
-nameOverride: gitops-apps
 global:
   namespace: gitops
   project: default
   repo:
     url: https://github.com/vladimir-babichev/gitops-argocd/
     revision: HEAD
-    pathPrefix: k8s/gitops
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
-      - ApplyOutOfSyncOnly=true
 
-applications:
-  argocd:
-  # path: k8s/gitops/argocd
-  gitops-apps:
-    path: k8s/gitops/apps
-  core-apps:
-    path: k8s/core/apps
+argocd-apps:
+  applications:
+    argocd:
+      path: k8s/gitops/argocd
+    gitops-apps:
+      path: k8s/gitops/apps
+    core-apps:
+      path: k8s/core/apps
