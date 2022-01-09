@@ -24,12 +24,12 @@ applications:
       version: v3
       valueFiles:
         - values.yaml
-  # core-apps:
-  #   path: k8s/core/apps
-  #   helm:
-  #     releaseName: core-apps
-  #     version: v3
-  #     valueFiles:
-  #       - values.yaml
+  core-apps:
+    path: k8s/core/apps
+    helm:
+      releaseName: core-apps
+      version: v3
+      valueFiles:
+        - values.yaml
   argocd:
     path: k8s/gitops/argocd
