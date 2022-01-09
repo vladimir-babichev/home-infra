@@ -1,3 +1,4 @@
+nameOverride: core-apps
 global:
   namespace: core
   project: default
