@@ -16,4 +16,6 @@ global:
 
 applications:
   nfs-subdir-external-provisioner:
+    path: k8s/core/nfs-subdir-external-provisioner
   vault:
+    path: k8s/core/vault
