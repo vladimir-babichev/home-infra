@@ -7,14 +7,14 @@
 ###
 # Configuration
 ###
-volumes:
-  vault-data:
-    name: *x-volume
-    annotations:
-      argocd.argoproj.io/sync-wave: "-1"
-    nfs:
-      path: /Media/k8s
-      server: 192.168.20.8
+# volumes:
+#   vault-data:
+#     name: *x-volume
+#     annotations:
+#       argocd.argoproj.io/sync-wave: "-1"
+#     nfs:
+#       path: /Media/k8s
+#       server: 192.168.20.8
 
 vault:
   injector:
@@ -48,8 +48,9 @@ vault:
 
     volumes:
       - name: *x-volume
-        persistentVolumeClaim:
-          claimName: *x-volume
+        emptyDir: {}
+        # persistentVolumeClaim:
+        #   claimName: *x-volume
 
     standalone:
       enabled: "-"
