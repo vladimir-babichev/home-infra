@@ -104,6 +104,8 @@ argo-cd:
   repoServer:
     <<: *x-affinity
     <<: *x-metrics
+    serviceAccount:
+      create: true
     envFrom:
       - secretRef:
           name: argocd-vault-plugin-credentials
