@@ -1,0 +1,23 @@
+---
+traefik:
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchExpressions:
+              - key: app.kubernetes.io/instance
+                operator: In
+                values:
+                  - traefik-internal
+          topologyKey: kubernetes.io/hostname
+
+  service:
+    annotations:
+      metallb.universe.tf/address-pool: ingress-internal
+    type: LoadBalancer
+    spec:
+      externalTrafficPolicy: Local
+
+  additionalArguments:
+    - "--providers.kubernetesingress.ingressclass=traefik-internal"
+    - "--serversTransport.insecureSkipVerify=true"

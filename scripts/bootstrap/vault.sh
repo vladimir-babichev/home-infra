@@ -204,6 +204,10 @@ loadSecretsToVault() {
   info "writing secrets to vault"
   vault kv put secrets/k8s/cluster domain="$K8S_CLUSTER_DOMAIN"
 
+  vault kv put secrets/k8s/traefik-forward-auth/github clientId="$TRAEFIK_FORWARD_AUTH_CLIENTID"
+  vault kv put secrets/k8s/traefik-forward-auth/github clientSecret="$TRAEFIK_FORWARD_AUTH_CLIENTSECRET"
+  vault kv put secrets/k8s/traefik-forward-auth/github whitelistEmails="$TRAEFIK_FORWARD_AUTH_WHITELISTEMAILS"
+
 #   secretVault "main/homelab/minio/minio-secret.txt"
 #   argoHelmValueVault "main/monitoring/botkube/botkube-helm-values.txt"
 }

@@ -18,6 +18,8 @@ argocd-apps:
       path: k8s/gitops/apps
     core-apps:
       path: k8s/core/apps
+    ingress-apps:
+      path: k8s/ingress/apps
 
   appProjects:
     core:

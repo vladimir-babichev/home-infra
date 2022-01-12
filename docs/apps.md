@@ -10,11 +10,11 @@
 * [ ] [descheduler]
 * [ ] [external-secrets](https://github.com/external-secrets/external-secrets)
 * [ ] [hajimari](https://github.com/toboshii/hajimari)
-* [ ] [Hashicorp Vault]
+* [x] [Hashicorp Vault](https://www.vaultproject.io/docs)
 * [ ] [intel-gpu_plugin]
 * [ ] [kured]
 * [ ] [metallb]
-* [ ] [nfs-subdir-external-provisioner]
+* [x] [nfs-subdir-external-provisioner](https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner)
 * [ ] [node-feature-discovery]
 * [ ] [node-problem-detector]
 * [ ] [reloader](https://github.com/stakater/Reloader)

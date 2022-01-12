@@ -24,29 +24,6 @@
 ###
 # Configuration
 ###
-# externalSecret:
-#   argocd-manor-gitrepo:
-#     refreshInterval: "10m"
-#     secretStoreRef:
-#       name: vault
-#       kind: ClusterSecretStore
-#     target:
-#       name: argocd-manor-gitrepo
-#       template:
-#         metadata:
-#           labels:
-#             argocd.argoproj.io/secret-type: repo-creds
-#         data:
-#           type: git
-#           url: git@gitlab-gitlab-shell.gitlab.svc:manor
-#           sshPrivateKey: |
-#             {{ .sshPrivateKey | toString }}
-#     data:
-#       - secretKey: sshPrivateKey
-#         remoteRef:
-#           key: k8s/argocd/sshKey
-#           property: sshPrivateKey
-
 argo-cd:
   global:
     image:

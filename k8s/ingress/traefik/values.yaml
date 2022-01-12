@@ -1,0 +1,38 @@
+---
+traefik:
+  deployment:
+    replicas: 2
+
+  podDisruptionBudget:
+    enabled: true
+    minAvailable: 1
+
+  rbac:
+    enabled: true
+
+  logs:
+    access:
+      enabled: true
+
+  tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
+    - effect: NoSchedule
+      key: node-role.kubernetes.io/master
+      operator: Exists
+
+  globalArguments:
+    - "--api.dashboard=true"
+    - "--api.insecure=true"
+    - "--entrypoints.web.http.redirections.entryPoint.to=:443"
+    - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+    - "--entrypoints.web.http.redirections.entryPoint.permanent=true"
+    - "--entrypoints.web.http.redirections.entryPoint.priority=10"
+
+  providers:
+    kubernetesCRD:
+      enabled: true
+    kubernetesIngress:
+      enabled: true
+      publishedService:
+        enabled: true

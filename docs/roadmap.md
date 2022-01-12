@@ -4,6 +4,9 @@
 
 1. Helm Chart for applications
 1. Helm repository with registry
+1. Build docker image for AgroCD with argocd-vault-plugin
+
+## Future release
 
 * Integrate with Auth0
 * FusionAuth

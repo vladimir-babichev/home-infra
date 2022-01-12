@@ -1,0 +1,28 @@
+---
+###
+# Configuration
+###
+traefik-forward-auth:
+  default:
+    provider: generic-oauth
+  cookie:
+    domain: "<path:secrets/data/k8s/cluster#domain>"
+  lifetime: 864000 # 10 days
+  env:
+    - name: PROVIDERS_GENERIC_OAUTH_CLIENT_ID
+      value: "<path:secrets/data/k8s/traefik-forward-auth/github#clientId>"
+    - name: PROVIDERS_GENERIC_OAUTH_CLIENT_SECRET
+      value: "<path:secrets/data/k8s/traefik-forward-auth/github#clientSecret>"
+  providers:
+    genericOauth:
+      enabled: true
+      authUrl: https://github.com/login/oauth/authorize
+      tokenUrl: https://github.com/login/oauth/access_token
+      userUrl: https://api.github.com/user
+  middleware:
+    enabled: true
+    name: traefik-external-auth-proxy
+  restrictions:
+    whitelist: "<path:secrets/data/k8s/traefik-forward-auth/github#whitelistEmails>"
+  nodeSelector:
+    kubernetes.io/arch: amd64

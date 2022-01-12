@@ -1,0 +1,23 @@
+---
+traefik:
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchExpressions:
+              - key: app.kubernetes.io/instance
+                operator: In
+                values:
+                  - traefik-external
+          topologyKey: kubernetes.io/hostname
+
+  service:
+    annotations:
+      metallb.universe.tf/address-pool: ingress-external
+    type: LoadBalancer
+    spec:
+      externalTrafficPolicy: Local
+
+  additionalArguments:
+    - "--providers.kubernetesingress.ingressclass=traefik-external"
+    - "--entrypoints.websecure.http.middlewares=ingress-external-traefik-external-auth-proxy@kubernetescrd"

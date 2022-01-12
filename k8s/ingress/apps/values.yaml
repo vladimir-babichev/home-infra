@@ -1,0 +1,31 @@
+global:
+  project: core
+  repo:
+    url: https://github.com/vladimir-babichev/gitops-argocd/
+    revision: HEAD
+
+argocd-apps:
+  applications:
+    traefik-internal:
+      namespace: ingress-internal
+      path: k8s/ingress/traefik
+      helm:
+        version: v3
+        valueFiles:
+          - values.yaml
+          - values-internal.yaml
+
+    traefik-external:
+      namespace: ingress-external
+      path: k8s/ingress/traefik
+      helm:
+        version: v3
+        valueFiles:
+          - values.yaml
+          - values-external.yaml
+
+    traefik-forward-auth:
+      namespace: ingress-external
+      path: k8s/ingress/traefik-forward-auth
+      plugin:
+        name: argocd-vault-plugin-helm
