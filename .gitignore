@@ -2,3 +2,5 @@
 *.lock
 **/charts/
 /site/
+/terraform
+/dev

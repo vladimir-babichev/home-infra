@@ -106,9 +106,15 @@ argo-cd:
     <<: *x-metrics
     serviceAccount:
       create: true
-    envFrom:
-      - secretRef:
-          name: argocd-vault-plugin-credentials
+    env:
+      - name: AVP_AUTH_TYPE
+        value: k8s
+      - name: AVP_K8S_ROLE
+        value: k8s-secrets-ro
+      - name: AVP_TYPE
+        value: vault
+      - name: VAULT_ADDR
+        value: http://vault.core.svc:8200
     volumes:
       - name: custom-tools
         emptyDir: {}

@@ -1,7 +1,7 @@
 ###
 # Templated values
 ###
-.hostname: &x-hostname "vault.secret-domain.com"
+.hostname: &x-hostname "vault.<path:secrets/data/k8s/cluster#domain>"
 .volume: &x-volume "vault-data"
 
 ###
