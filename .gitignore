@@ -3,6 +3,7 @@
 **/charts/
 /site/
 /dev
+.env
 
 # Local .terraform directories
 **/.terraform/*
