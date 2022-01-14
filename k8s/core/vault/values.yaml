@@ -13,8 +13,8 @@
 #     annotations:
 #       argocd.argoproj.io/sync-wave: "-1"
 #     nfs:
-#       path: /Media/k8s
-#       server: 192.168.20.8
+#       path: <path:secrets/data/k8s/nfs/secrets#path>
+#       server: <path:secrets/data/k8s/nfs/secrets#server>
 
 vault:
   injector:

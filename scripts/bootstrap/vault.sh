@@ -11,9 +11,12 @@ help() {
     To display this help again use this flags:    -h, --help
 
     Parameters:
-    -a, --vault-addr     Vault address. Default: http://127.0.0.1:8200
-    -n, --namespace      Target namespace
-    -r, --replica-count  Target namespace. Default: 0
+    -a, --vault-addr         Vault address. Default: http://127.0.0.1:8200
+    -n, --namespace          Target namespace
+    -r, --replica-count      Target namespace. Default: 0
+        --nfs-volume-path    NFS share path. Defult: null
+        --nfs-volume-server  NFS server address. Defult: null
+}
 EOF
 }
 
@@ -36,6 +39,13 @@ while [[ $# -gt 0 ]]; do
         help
         exit 0
         ;;
+    --nfs-volume-path)
+        nfs_volume_path="$2"
+        shift;;
+    --nfs-volume-server)
+        nfs_volume_server="$2"
+        shift
+        ;;
     *)
         fail "Parameter $1 not recognized!"
         ;;
@@ -43,20 +53,18 @@ while [[ $# -gt 0 ]]; do
   shift
 done
 
-if [[ -z "$namespace" ]]; then
-    fail "Namespace cannot be null!"
-fi
+[[ -z "$namespace" ]]         && fail "Namespace cannot be null!"
 
-if [[ -z "$replica_count" ]]; then
-  replica_count=0
-fi
+[[ -z "$replica_count" ]]     && replica_count=0
 VAULT_REPLICAS=$(seq -s " " -t "\n" 0 $((replica_count)))
 export VAULT_REPLICAS="$VAULT_REPLICAS"
 
-if [[ -z "$vault_addr" ]]; then
-  vault_addr="http://127.0.0.1:8200"
-fi
+[[ -z "$vault_addr" ]]        && vault_addr="http://127.0.0.1:8200"
 export VAULT_ADDR="$vault_addr"
+
+[[ -z "$nfs_volume_path" ]]   && nfs_volume_path="null"
+[[ -z "$nfs_volume_server" ]] && nfs_volume_server="null"
+
 
 # trap "exit" INT TERM
 # trap "kill 0" EXIT
@@ -96,7 +104,9 @@ installVault() {
   cd "${ROOT_DIR}/k8s/core/vault/" || fail
   helm dependency update
   helm upgrade -i vault . \
-      --set vault.server.ingress=null
+      --set vault.server.ingress=null \
+      --set volumes.vault-data.nfs.path="$nfs_volume_path" \
+      --set volumes.vault-data.nfs.server="$nfs_volume_server"
 }
 
 initVault() {
