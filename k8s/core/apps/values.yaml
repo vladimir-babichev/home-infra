@@ -11,3 +11,5 @@ argocd-apps:
       path: k8s/core/nfs-subdir-external-provisioner
     vault:
       path: k8s/core/vault
+    cert-manager:
+      path: k8s/core/cert-manager
