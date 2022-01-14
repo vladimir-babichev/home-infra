@@ -22,3 +22,7 @@ argocd-apps:
         name: argocd-vault-plugin-helm
     metallb:
       path: k8s/core/cert-manager
+    mysql:
+      path: k8s/core/mysql
+      plugin:
+        name: argocd-vault-plugin-helm

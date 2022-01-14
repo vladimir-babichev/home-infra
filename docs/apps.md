@@ -6,34 +6,36 @@
 
 ## core
 
-* [ ] [cert-manager](https://cert-manager.io/)
+* [x] [cert-manager](https://cert-manager.io/)
 * [ ] [descheduler]
 * [ ] [external-secrets](https://github.com/external-secrets/external-secrets)
 * [ ] [hajimari](https://github.com/toboshii/hajimari)
 * [x] [Hashicorp Vault](https://www.vaultproject.io/docs)
 * [ ] [intel-gpu_plugin]
 * [ ] [kured]
-* [ ] [metallb]
+* [x] [metallb]
 * [x] [nfs-subdir-external-provisioner](https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner)
 * [ ] [node-feature-discovery]
 * [ ] [node-problem-detector]
 * [ ] [reloader](https://github.com/stakater/Reloader)
 * [ ] [velero]
-* [ ] [MySQL](https://www.mysql.com/)
+* [x] [MySQL](https://www.mysql.com/)
 
 ## ingress-internal
 
-* [ ] [Traefik](https://doc.traefik.io/traefik/)
+* [x] [Traefik](https://doc.traefik.io/traefik/)
 
 ## ingress-external
 
-* [ ] [Traefik Forward Auth](https://github.com/thomseddon/traefik-forward-auth)
-* [ ] [Traefik](https://doc.traefik.io/traefik/)
+* [x] [Traefik Forward Auth](https://github.com/thomseddon/traefik-forward-auth)
+* [x] [Traefik](https://doc.traefik.io/traefik/)
 
 ## services
 
 * [ ] [Pi-hole](https://pi-hole.net/)
 * [ ] [unifi](https://github.com/jacobalberty/unifi-docker)
+* [ ] [BabyBuddy]
+* [ ] [NextCloud]
 
 ## GitLab
 

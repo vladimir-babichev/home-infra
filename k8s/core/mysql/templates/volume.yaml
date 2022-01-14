@@ -1,0 +1,50 @@
+{{- range $k, $v := .Values.volumes }}
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ default $k $v.name }}
+  {{- if $v.annotations }}
+  annotations:
+    {{- toYaml $v.annotations | nindent 4 }}
+  {{- end }}
+  labels:
+    {{- include "chart.labels" $ | nindent 4 }}
+    {{- if $v.labels }}
+    {{- toYaml $v.labels | nindent 4 }}
+    {{- end }}
+spec:
+  accessModes:
+    - ReadWriteMany
+  capacity:
+    storage: {{ default "1Gi" $v.size }}
+  nfs:
+    path: {{ $v.nfs.path }}/{{ default $k $v.name }}
+    server: {{ $v.nfs.server }}
+  persistentVolumeReclaimPolicy: {{ default "Retain" $v.persistentVolumeReclaimPolicy }}
+  storageClassName: nfs
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ default $k $v.name }}
+  {{- if $v.annotations }}
+  annotations:
+    {{- toYaml $v.annotations | nindent 4 }}
+  {{- end }}
+  labels:
+    {{- include "chart.labels" $ | nindent 4 }}
+    {{- if $v.labels }}
+    {{- toYaml $v.labels | nindent 4 }}
+    {{- end }}
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: {{ default "1Gi" $v.size }}
+  storageClassName: nfs
+  volumeMode: Filesystem
+  volumeName: {{ default $k $v.name }}
+{{- end }}
