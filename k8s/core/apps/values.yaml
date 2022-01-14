@@ -10,6 +10,8 @@ argocd-apps:
   applications:
     nfs-subdir-external-provisioner:
       path: k8s/core/nfs-subdir-external-provisioner
+      plugin:
+        name: argocd-vault-plugin-helm
     vault:
       path: k8s/core/vault
     cert-manager:

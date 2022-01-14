@@ -1,7 +1,7 @@
 nfs-subdir-external-provisioner:
   nfs:
-    server: 192.168.20.8
-    path: /Media/k8s
+    server: <path:secrets/data/k8s/nfs/secrets#server>
+    path: <path:secrets/data/k8s/nfs/secrets#path>
 
   tolerations:
     - key: CriticalAddonsOnly
