@@ -1,0 +1,51 @@
+---
+metallb:
+  controller:
+    image:
+      repository: metallb/controller
+      tag: v0.11.0
+    prometheus:
+      serviceMonitor:
+        enabled: true
+
+  speaker:
+    image:
+      repository: metallb/speaker
+      tag: v0.11.0
+    prometheus:
+      serviceMonitor:
+        enabled: true
+
+  prometheusRule:
+    enabled: true
+
+  configInline:
+    address-pools:
+      - name: default
+        protocol: layer2
+        addresses:
+          - 192.168.20.13/32
+          - 192.168.20.16/32
+          - 192.168.20.17/32
+          - 192.168.20.18/32
+          - 192.168.20.19/32
+      - name: ingress-internal
+        protocol: layer2
+        addresses:
+          - 192.168.20.11/32
+      - name: ingress-external
+        protocol: layer2
+        addresses:
+          - 192.168.20.15/32
+      - name: pihole-svcs
+        protocol: layer2
+        addresses:
+          - 192.168.20.2/32
+      - name: gitlab-svcs
+        protocol: layer2
+        addresses:
+          - 192.168.20.12/32
+      - name: unify-svcs
+        protocol: layer2
+        addresses:
+          - 192.168.20.14/32

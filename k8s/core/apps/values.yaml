@@ -1,3 +1,4 @@
+---
 global:
   namespace: core
   project: core
@@ -12,4 +13,8 @@ argocd-apps:
     vault:
       path: k8s/core/vault
     cert-manager:
+      path: k8s/core/cert-manager
+      plugin:
+        name: argocd-vault-plugin-helm
+    metallb:
       path: k8s/core/cert-manager
