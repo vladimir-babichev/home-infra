@@ -5,6 +5,6 @@ dependencies:
   - name: mysql
     version: "8.8.21"
     repository: https://charts.bitnami.com/bitnami
-  - name: common
+  - name: commonlib
     version: 0.1.0
     repository: https://vladimir-babichev.github.io/helm-charts/
