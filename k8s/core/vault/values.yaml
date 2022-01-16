@@ -2,16 +2,19 @@
 # Templated values
 ###
 .hostname: &x-hostname "vault.<path:secrets/data/k8s/cluster#domain>"
-.volume: &x-volume "vault-data"
+.volume: &x-volume-name "vault-data"
 
 ###
 # Configuration
 ###
 # volumes:
-#   vault-data:
-#     name: *x-volume
+#   data:
+#     enabled: true
+#     nameOverride: *x-volume-name
 #     annotations:
 #       argocd.argoproj.io/sync-wave: "-1"
+#     storageClassName: nfs
+#     volumeMode: Filesystem
 #     nfs:
 #       path: <path:secrets/data/k8s/nfs/secrets#path>
 #       server: <path:secrets/data/k8s/nfs/secrets#server>
@@ -44,13 +47,13 @@ vault:
 
     volumeMounts:
       - mountPath: /vault/data
-        name: *x-volume
+        name: *x-volume-name
 
     volumes:
-      - name: *x-volume
+      - name: *x-volume-name
         emptyDir: {}
         # persistentVolumeClaim:
-        #   claimName: *x-volume
+        #   claimName: *x-volume-name
 
     standalone:
       enabled: "-"
