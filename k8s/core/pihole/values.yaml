@@ -1,0 +1,90 @@
+###
+# Templated values
+###
+.domain: &x-domain "<path:secrets/data/k8s/cluster#domain>"
+.hostname: &x-hostname "pihole.<path:secrets/data/k8s/cluster#domain>"
+.master-dns: &x-master-dns "192.168.20.1"
+
+###
+# Configuration
+###
+
+volumes:
+  data:
+    enabled: true
+    nameOverride: pihole
+    annotations:
+      argocd.argoproj.io/sync-wave: "-1"
+    storageClassName: nfs
+    volumeMode: Filesystem
+    nfs:
+      path: <path:secrets/data/k8s/nfs/secrets#path>
+      server: <path:secrets/data/k8s/nfs/secrets#server>
+    size: 500Mi
+application: pihole
+secretsPath: k8s/pihole/secrets
+
+pihole:
+  DNS1: *x-master-dns
+  DNS2: *x-master-dns
+  virtualHost: *x-hostname
+  maxUnavailable: 0
+
+  extraEnvVars:
+    CONDITIONAL_FORWARDING: true
+    CONDITIONAL_FORWARDING_DOMAIN: *x-domain
+    CONDITIONAL_FORWARDING_IP: *x-master-dns
+    DNS_BOGUS_PRIV: false
+    FTLCONF_BLOCK_ICLOUD_PR: "true"
+    FTLCONF_MOZILLA_CANARY: "true"
+    IPv6: false
+
+  adminPassword: <path:secrets/data/k8s/pihole/secrets#password>
+
+  image:
+    repository: pihole/pihole
+    tag: 2021.12.1
+
+  ingress:
+    annotations:
+      traefik.ingress.kubernetes.io/router.tls: "true"
+      cert-manager.io/cluster-issuer: letsencrypt
+      kubernetes.io/ingress.class: traefik-internal
+    enabled: true
+    hosts:
+      - *x-hostname
+    tls:
+      - hosts:
+          - *x-hostname
+        secretName: *x-hostname
+
+  persistentVolumeClaim:
+    enabled: true
+    existingClaim: pihole
+    accessModes:
+      - ReadWriteMany
+
+  serviceDns:
+    annotations:
+      metallb.universe.tf/address-pool: pihole-svcs
+      metallb.universe.tf/allow-shared-ip: pihole-svcs
+    type: LoadBalancer
+
+  serviceDhcp:
+    enabled: false
+
+  podDnsConfig:
+    enabled: true
+    policy: "None"
+    nameservers:
+      - 127.0.0.1
+      - *x-master-dns
+
+  monitoring:
+    podMonitor:
+      enabled: false
+    sidecar:
+      enabled: false
+      image:
+        repository: ekofr/pihole-exporter
+        tag: v0.1.1
