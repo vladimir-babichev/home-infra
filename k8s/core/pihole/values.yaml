@@ -4,6 +4,7 @@
 .domain: &x-domain "<path:secrets/data/k8s/cluster#domain>"
 .hostname: &x-hostname "pihole.<path:secrets/data/k8s/cluster#domain>"
 .master-dns: &x-master-dns "192.168.20.1"
+.volume-name: &x-volume-name "pihole"
 
 ###
 # Configuration
@@ -12,7 +13,7 @@
 volumes:
   data:
     enabled: true
-    nameOverride: pihole
+    nameOverride: *x-volume-name
     annotations:
       argocd.argoproj.io/sync-wave: "-1"
     storageClassName: nfs
@@ -21,8 +22,6 @@ volumes:
       path: <path:secrets/data/k8s/nfs/secrets#path>
       server: <path:secrets/data/k8s/nfs/secrets#server>
     size: 500Mi
-application: pihole
-secretsPath: k8s/pihole/secrets
 
 pihole:
   DNS1: *x-master-dns
@@ -60,7 +59,7 @@ pihole:
 
   persistentVolumeClaim:
     enabled: true
-    existingClaim: pihole
+    existingClaim: *x-volume-name
     accessModes:
       - ReadWriteMany
 
