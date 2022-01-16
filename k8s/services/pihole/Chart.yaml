@@ -8,4 +8,4 @@ dependencies:
     repository: https://mojo2600.github.io/pihole-kubernetes/
   - name: commonlib
     version: 0.1.0
-    repository: file://../../../../helm-charts/charts/commonlib
+    repository: https://vladimir-babichev.github.io/helm-charts/
