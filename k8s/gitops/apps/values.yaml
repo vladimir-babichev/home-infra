@@ -5,7 +5,7 @@ global:
   namespace: gitops
   project: gitops
   repo:
-    url: https://github.com/vladimir-babichev/gitops-argocd/
+    url: https://github.com/vladimir-babichev/home-infra/
     revision: HEAD
 
 argocd-apps:

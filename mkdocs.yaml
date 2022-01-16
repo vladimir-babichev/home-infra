@@ -1,10 +1,10 @@
 site_author: Vladimir Babichev
 site_description: Automation for home infrastructure
 site_name: Home Automation
-site_url: https://vladimir-babichev.github.io/gitops-argocd/
+site_url: https://vladimir-babichev.github.io/home-infra/
 
-repo_name: gitops-argocd
-repo_url: https://github.com/vladimir-babichev/gitops-argocd
+repo_name: home-infra
+repo_url: https://github.com/vladimir-babichev/home-infra
 edit_uri: "edit/main/docs/"
 docs_dir: docs
 

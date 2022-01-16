@@ -4,4 +4,4 @@ This repo represents my home infrastructure. The goal is to integrate all compon
 
 ## :book: Documentation
 
-For more information checkout my [docs site](https://vladimir-babichev.github.io/gitops-argocd/).
+For more information checkout my [docs site](https://vladimir-babichev.github.io/home-infra/).
