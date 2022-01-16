@@ -1,0 +1,59 @@
+###
+# Templated values
+###
+.hostname: &x-hostname "unifi.<path:secrets/data/k8s/cluster#domain>"
+.service-config: &x-service-config
+  annotations:
+    metallb.universe.tf/address-pool: unify-svcs
+    metallb.universe.tf/allow-shared-ip: unify-svcs
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+
+###
+# Configuration
+###
+timezone: Europe/London
+
+controllerService:
+  <<: *x-service-config
+
+discoveryService:
+  <<: *x-service-config
+
+stunService:
+  <<: *x-service-config
+
+syslogService:
+  <<: *x-service-config
+  enabled: true
+
+guiService:
+  annotations:
+    traefik.ingress.kubernetes.io/service.serversscheme: https
+
+ingress:
+  annotations:
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    cert-manager.io/cluster-issuer: letsencrypt
+    kubernetes.io/ingress.class: traefik-internal
+  enabled: true
+  hosts:
+    - *x-hostname
+  tls:
+    - hosts:
+        - *x-hostname
+      secretName: *x-hostname
+
+persistence:
+  enabled: true
+  storageClass: nfs-client
+
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/arch
+              operator: In
+              values:
+                - amd64

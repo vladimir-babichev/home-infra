@@ -3,12 +3,14 @@ global:
   namespace: services
   project: services
   repo:
-    url: https://github.com/vladimir-babichev/gitops-argocd/
+    url: https://github.com/vladimir-babichev/home-infra/
     revision: HEAD
+  plugin:
+    name: argocd-vault-plugin-helm
 
 argocd-apps:
   applications:
     pihole:
       path: k8s/services/pihole
-      plugin:
-        name: argocd-vault-plugin-helm
+    unifi:
+      path: k8s/services/unifi
