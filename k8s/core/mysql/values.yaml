@@ -1,10 +1,13 @@
 .volume: &x-volume-name "mysql"
 
 volumes:
-  mysql:
-    name: *x-volume-name
+  data:
+    enabled: true
+    nameOverride: *x-volume-name
     annotations:
       argocd.argoproj.io/sync-wave: "-1"
+    storageClassName: nfs
+    volumeMode: Filesystem
     nfs:
       path: <path:secrets/data/k8s/nfs/secrets#path>
       server: <path:secrets/data/k8s/nfs/secrets#server>
