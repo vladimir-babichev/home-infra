@@ -10,6 +10,8 @@ global:
 
 argocd-apps:
   applications:
+    babybuddy:
+      path: k8s/services/babybuddy
     pihole:
       path: k8s/services/pihole
     unifi:

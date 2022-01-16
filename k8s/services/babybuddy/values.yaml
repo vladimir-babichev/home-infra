@@ -1,0 +1,46 @@
+###
+# Templated values
+###
+.hostname: &x-hostname "babybuddy.<path:secrets/data/k8s/cluster#domain>"
+
+###
+# Configuration
+###
+babybuddy:
+  image:
+    repository: linuxserver/babybuddy
+    tag: 1.9.3
+
+  env:
+    TZ: Europe/London
+    DB_ENGINE: django.db.backends.mysql
+    DB_HOST: mysql.cluster-services.svc
+    DB_PORT: "3306"
+    DB_NAME: "<path:secrets/data/k8s/babybuddy/secrets#db-name>"
+    DB_PASSWORD: "<path:secrets/data/k8s/babybuddy/secrets#db-password>"
+    DB_USER: "<path:secrets/data/k8s/babybuddy/secrets#db-username>"
+
+  ingress:
+    annotations:
+      traefik.ingress.kubernetes.io/router.tls: "true"
+      cert-manager.io/cluster-issuer: letsencrypt
+      kubernetes.io/ingress.class: traefik-internal
+    enabled: true
+    hosts:
+      - host: *x-hostname
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: *x-hostname
+        hosts:
+          - *x-hostname
+
+  persistence:
+    config:
+      enabled: true
+      mountPath: /config
+      storageClass: "nfs-client"
+      accessMode: ReadWriteOnce
+      size: 100Mi
+      skipuninstall: true

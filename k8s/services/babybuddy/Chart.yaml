@@ -1,0 +1,8 @@
+apiVersion: v2
+name: babybuddy
+version: 0.1.0
+
+dependencies:
+  - name: babybuddy
+    version: "2.3.*"
+    repository: https://nicholaswilde.github.io/helm-charts/
