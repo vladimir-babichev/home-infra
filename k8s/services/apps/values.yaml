@@ -1,0 +1,14 @@
+---
+global:
+  namespace: services
+  project: services
+  repo:
+    url: https://github.com/vladimir-babichev/gitops-argocd/
+    revision: HEAD
+
+argocd-apps:
+  applications:
+    pihole:
+      path: k8s/services/pihole
+      plugin:
+        name: argocd-vault-plugin-helm
