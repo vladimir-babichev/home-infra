@@ -35,7 +35,7 @@
 * [x] [Pi-hole](https://pi-hole.net/)
 * [x] [unifi](https://github.com/jacobalberty/unifi-docker)
 * [x] [BabyBuddy]
-* [ ] [NextCloud]
+* [x] [NextCloud]
 
 ## GitLab
 
