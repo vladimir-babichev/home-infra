@@ -12,6 +12,8 @@ argocd-apps:
   applications:
     babybuddy:
       path: k8s/services/babybuddy
+    nextcloud:
+      path: k8s/services/nextcloud
     pihole:
       path: k8s/services/pihole
     unifi:

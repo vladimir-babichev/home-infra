@@ -1,0 +1,137 @@
+###
+# Templated values
+###
+.hostname: &x-hostname "cloud.<path:secrets/data/k8s/cluster#domain>"
+.mysql-database: &mysql-database "<path:secrets/data/k8s/nextcloud/database#mysql-database>"
+.mysql-hostname: &mysql-hostname "mysql.core.svc"
+.mysql-password: &mysql-password "<path:secrets/data/k8s/nextcloud/database#mysql-password>"
+.mysql-username: &mysql-username "<path:secrets/data/k8s/nextcloud/database#mysql-username>"
+.nextcloud-password: &nextcloud-password "<path:secrets/data/k8s/nextcloud/users#admin-password>"
+.nextcloud-username: &nextcloud-username "<path:secrets/data/k8s/nextcloud/users#admin-username>"
+.volume-name: &x-volume-name nextcloud
+
+volumes:
+  data:
+    enabled: true
+    nameOverride: *x-volume-name
+    annotations:
+      argocd.argoproj.io/sync-wave: "-1"
+    nfs:
+      path: <path:secrets/data/k8s/nfs/secrets#path>
+      server: <path:secrets/data/k8s/nfs/secrets#server>
+    size: 500Gi
+    storageClassName: nfs
+
+traefik:
+  middleware:
+    headers:
+      enabled: true
+      spec:
+        headers:
+          stsSeconds: 15552000
+          stsIncludeSubdomains: true
+          stsPreload: true
+    redirect:
+      enabled: true
+      spec:
+        redirectRegex:
+          regex: /.well-known/(card|cal)dav
+          replacement: /remote.php/dav/
+
+ingress:
+  external:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+      kubernetes.io/ingress.class: traefik-external
+      traefik.ingress.kubernetes.io/router.middlewares: default-nextcloud-headers@kubernetescrd,default-nextcloud-redirect@kubernetescrd
+      traefik.ingress.kubernetes.io/router.tls: "true"
+    hosts:
+      - host: *x-hostname
+        paths:
+          - path: /
+    tls:
+      - secretName: *x-hostname
+        hosts:
+          - *x-hostname
+
+###
+# Configuration
+###
+nextcloud:
+  image:
+    repository: nextcloud
+    tag: 22.2.3-apache
+
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+      kubernetes.io/ingress.class: traefik-internal
+      traefik.ingress.kubernetes.io/router.middlewares: default-nextcloud-headers@kubernetescrd,default-nextcloud-redirect@kubernetescrd
+      traefik.ingress.kubernetes.io/router.tls: "true"
+    tls:
+      - secretName: *x-hostname
+        hosts:
+          - *x-hostname
+
+  nextcloud:
+    host: *x-hostname
+    username: *nextcloud-username
+    password: *nextcloud-password
+    update: 0
+    persistence:
+      subPath:
+    defaultConfigs:
+      .htaccess: true
+      redis.config.php: true
+      apache-pretty-urls.config.php: true
+      apcu.config.php: true
+      apps.config.php: true
+      autoconfig.php: true
+      smtp.config.php: true
+
+    extraEnv:
+      - name: TRUSTED_PROXIES
+        value: 10.42.0.0/16
+      # - name: APACHE_DISABLE_REWRITE_IP
+      #   value: "1"
+
+  internalDatabase:
+    enabled: false
+
+  externalDatabase:
+    enabled: true
+    type: mysql
+    host: *mysql-hostname
+    user: *mysql-username
+    password: *mysql-password
+    database: *mysql-database
+
+  service:
+    type: ClusterIP
+    port: 8080
+    loadBalancerIP: nil
+    nodePort: nil
+
+  persistence:
+    enabled: true
+    existingClaim: nextcloud
+
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: kubernetes.io/arch
+                operator: In
+                values:
+                  - amd64
+
+  livenessProbe:
+    initialDelaySeconds: 300
+    periodSeconds: 10
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 300
+    failureThreshold: 5
