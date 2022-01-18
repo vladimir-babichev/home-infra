@@ -1,0 +1,20 @@
+---
+global:
+  namespace: services
+  project: services
+  repo:
+    url: https://github.com/vladimir-babichev/home-infra/
+    revision: HEAD
+  plugin:
+    name: argocd-vault-plugin-helm
+
+argocd-apps:
+  applications:
+    frigate:
+      path: k8s/home-automation/frigate
+    home-assistant:
+      path: k8s/home-automation/home-assistant
+    mosquitto:
+      path: k8s/home-automation/mosquitto
+    node-red:
+      path: k8s/home-automation/node-red

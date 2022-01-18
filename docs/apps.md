@@ -47,8 +47,8 @@
 
 ## home-automation
 
-* [ ] [Frigate](https://frigate.video/)
-* [ ] [Home Assistant](https://www.home-assistant.io/)
+* [x] [Frigate](https://frigate.video/)
+* [x] [Home Assistant](https://www.home-assistant.io/)
 * [ ] [Mosquitto](https://mosquitto.org/)
 * [ ] [Node-RED](https://nodered.org/)
 * [ ] [Zwavejs2Mqtt](https://github.com/zwave-js/zwavejs2mqtt)

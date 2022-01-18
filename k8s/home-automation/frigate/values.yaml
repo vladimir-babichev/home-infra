@@ -1,0 +1,124 @@
+###
+# Templated values
+###
+.hostname: &x-hostname "frigate.<path:secrets/data/k8s/cluster#domain>"
+.volume-name: &x-volume-name "frigate"
+
+###
+# Configuration
+###
+
+volumes:
+  data:
+    enabled: true
+    nameOverride: *x-volume-name
+    annotations:
+      argocd.argoproj.io/sync-wave: "-1"
+    storageClassName: nfs
+    volumeMode: Filesystem
+    nfs:
+      path: <path:secrets/data/k8s/nfs/secrets#path>
+      server: <path:secrets/data/k8s/nfs/secrets#server>
+
+frigate:
+  image:
+    repository: blakeblackshear/frigate
+    tag: 0.10.0-beta6-amd64
+
+  env:
+    TZ: Europe/London
+    FRIGATE_RTSP_PASSWORD: <path:secrets/data/k8s/frigate/secrets#rtsp-password>
+
+  ingress:
+    main:
+      enabled: true
+      annotations:
+        traefik.ingress.kubernetes.io/router.tls: "true"
+        cert-manager.io/cluster-issuer: letsencrypt
+        kubernetes.io/ingress.class: traefik-internal
+      hosts:
+        - host: *x-hostname
+          paths:
+            - path: /
+      tls:
+        - secretName: *x-hostname
+          hosts:
+            - *x-hostname
+
+  securityContext:
+    privileged: true
+
+  persistence:
+    media:
+      enabled: true
+      mountPath: /media
+      existingClaim: *x-volume-name
+    usb:
+      enabled: true
+
+  nodeSelector:
+    manor/tpu: google-coral
+
+  config: |
+    ffmpeg:
+      global_args: -hide_banner -loglevel warning
+      hwaccel_args:
+        - -hwaccel
+        - vaapi
+        - -hwaccel_device
+        - /dev/dri/renderD128
+        - -hwaccel_output_format
+        - yuv420p
+    logger:
+      default: info
+      logs:
+        ffmpeg.front_garden.detect: debug
+        frigate.video: debug
+    mqtt:
+      host: mosquitto-nontls
+      port: 1883
+      user: <path:secrets/data/k8s/frigate/secrets#mqtt-username>
+      password: <path:secrets/data/k8s/frigate/secrets#mqtt-password>
+      stats_interval: 60
+    detectors:
+      coral:
+        type: edgetpu
+        device: usb
+    rtmp:
+      enabled: True
+    live:
+      height: 720
+      quality: 2
+    cameras:
+      baby:
+        ffmpeg:
+          inputs:
+            - path: rtsp://192.168.70.212/live/0008f970c1e77478922c7648c97534e0/ch00_0
+              roles:
+                - rtmp
+          input_args:
+            - -avoid_negative_ts
+            - make_zero
+            - -fflags
+            - nobuffer
+            - -flags
+            - low_delay
+            - -strict
+            - experimental
+            - -fflags
+            - +genpts+discardcorrupt
+            - -rtsp_transport
+            - tcp
+            - -stimeout
+            - 5000000
+            - -use_wallclock_as_timestamps
+            - 1
+            # - -analyzeduration
+            # - 1000000
+            # - -probesize
+            # - 524288
+        detect:
+          enabled: False
+          width: 1280
+          height: 720
+          fps: 5

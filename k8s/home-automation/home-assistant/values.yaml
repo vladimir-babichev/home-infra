@@ -1,0 +1,110 @@
+###
+# Templated values
+###
+.hostname: &x-hostname "ha.<path:secrets/data/k8s/cluster#domain>"
+.volume-name: &x-volume-name "home-assistant"
+.ingress: &x-ingress
+  hosts:
+    - host: *x-hostname
+      paths:
+        - path: /
+  tls:
+    - secretName: *x-hostname
+      hosts:
+        - *x-hostname
+.service: &x-service
+  primary: false
+  type: LoadBalancer
+  loadBalancerIP: 192.168.20.16
+  annotations:
+    metallb.universe.tf/address-pool: default
+    metallb.universe.tf/allow-shared-ip: default
+  externalTrafficPolicy: Local
+
+###
+# Configuration
+###
+volumes:
+  data:
+    enabled: true
+    nameOverride: *x-volume-name
+    annotations:
+      argocd.argoproj.io/sync-wave: "-1"
+    storageClassName: nfs
+    volumeMode: Filesystem
+    nfs:
+      path: <path:secrets/data/k8s/nfs/secrets#path>
+      server: <path:secrets/data/k8s/nfs/secrets#server>
+
+home-assistant:
+  env:
+    TZ: Europe/London
+
+  image:
+    repository: homeassistant/home-assistant
+    tag: 2021.12.5
+
+  ingress:
+    main:
+      <<: *x-ingress
+      enabled: true
+      annotations:
+        traefik.ingress.kubernetes.io/router.tls: "true"
+        cert-manager.io/cluster-issuer: letsencrypt
+        kubernetes.io/ingress.class: traefik-internal
+
+    external:
+      <<: *x-ingress
+      enabled: true
+      annotations:
+        traefik.ingress.kubernetes.io/router.tls: "true"
+        kubernetes.io/ingress.class: traefik-external
+      nameSuffix: external
+
+  service:
+    homekit:
+      <<: *x-service
+      enabled: true
+      ports:
+        homekit:
+          port: 21064
+          enabled: true
+          protocol: TCP
+          targetPort: 21064
+    homekit-babycam:
+      <<: *x-service
+      enabled: true
+      ports:
+        homekit-babycam:
+          port: 21063
+          enabled: true
+          protocol: TCP
+          targetPort: 21063
+
+  persistence:
+    config:
+      enabled: true
+      existingClaim: *x-volume-name
+      skipuninstall: true
+    usb:
+      enabled: true
+      type: hostPath
+      hostPath: /dev/serial/by-id/usb-0658_0200-if00
+
+  # Pass through USB device
+  securityContext:
+    privileged: true
+
+  prometheus:
+    serviceMonitor:
+      enabled: false
+
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: manor/controller
+                operator: In
+                values:
+                  - zwave
