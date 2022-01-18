@@ -20,6 +20,8 @@ argocd-apps:
       path: k8s/core/apps
     ingress-apps:
       path: k8s/ingress/apps
+    system-upgrade:
+      path: k8s/system-upgrade/apps
 
   appProjects:
     core:

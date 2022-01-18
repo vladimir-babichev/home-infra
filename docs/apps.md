@@ -43,7 +43,7 @@
 
 ## system-upgrade
 
-* [ ] [system-upgrade-controller](https://github.com/rancher/system-upgrade-controller)
+* [x] [system-upgrade-controller](https://github.com/rancher/system-upgrade-controller)
 
 ## home-automation
 

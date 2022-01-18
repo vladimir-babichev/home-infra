@@ -1,0 +1,23 @@
+---
+global:
+  namespace: system-upgrade
+  project: system-upgrade
+  repo:
+    url: https://github.com/vladimir-babichev/home-infra/
+    revision: HEAD
+  syncPolicy:
+    automated: null
+
+argocd-apps:
+  applications:
+    system-upgrade-controller:
+      repo:
+        url: https://github.com/rancher/system-upgrade-controller
+        revision: v0.8.1
+      path: manifests
+      directory:
+        recurse: false
+    system-upgrade-plan:
+      path: k8s/system-upgrade/system-upgrade-plan
+      directory:
+        recurse: true
