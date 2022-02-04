@@ -61,7 +61,7 @@ ingress:
 nextcloud:
   image:
     repository: nextcloud
-    tag: 23.0.0-apache
+    tag: 23.0.1-apache
 
   ingress:
     enabled: true
