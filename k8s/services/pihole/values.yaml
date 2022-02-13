@@ -41,7 +41,7 @@ pihole:
 
   image:
     repository: pihole/pihole
-    tag: 2022.01.1
+    tag: 2022.02.1
 
   ingress:
     annotations:
