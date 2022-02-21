@@ -85,4 +85,4 @@ pihole:
       enabled: false
       image:
         repository: ekofr/pihole-exporter
-        tag: v0.2.0
+        tag: v0.3.0
