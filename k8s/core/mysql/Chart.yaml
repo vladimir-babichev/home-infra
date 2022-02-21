@@ -3,7 +3,7 @@ name: mysql
 version: 0.1.0
 dependencies:
   - name: mysql
-    version: "8.8.23"
+    version: "8.8.25"
     repository: https://charts.bitnami.com/bitnami
   - name: commonlib
     version: 0.1.2
