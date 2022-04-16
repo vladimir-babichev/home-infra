@@ -26,7 +26,7 @@ vault:
   server:
     image:
       repository: vault
-      tag: 1.9.3
+      tag: 1.10.0
 
     ingress:
       enabled: true
