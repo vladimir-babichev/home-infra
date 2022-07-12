@@ -9,7 +9,7 @@
 babybuddy:
   image:
     repository: linuxserver/babybuddy
-    tag: 1.11.1
+    tag: 1.11.2
 
   env:
     TZ: Europe/London
