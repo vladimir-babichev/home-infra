@@ -42,7 +42,7 @@ home-assistant:
 
   image:
     repository: homeassistant/home-assistant
-    tag: 2022.9.6
+    tag: 2022.9.7
 
   ingress:
     main:
